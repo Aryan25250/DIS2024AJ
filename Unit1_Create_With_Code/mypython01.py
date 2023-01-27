@@ -6,10 +6,10 @@ line comment
 
 # Input - asking for a user to input something and setting the result as a variable
 name = input("What is your name? ")
-age = input("What is your age? ")
+age = int(input("What is your age? "))
 
 # Processing
 # Python can calculate numbers
-age = 20 + age
+age = str(20 + age)
 
 print("Hi, "+name+", Your age in 20 years is "+age)
