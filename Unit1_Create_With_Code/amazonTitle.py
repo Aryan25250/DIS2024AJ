@@ -4,7 +4,7 @@ while True:
     string = input("\nEnter title or 'q' to quit: ")
 
     if string.lower() == "q":
-        quit()
+        break
 
     numWords = len(string.split())
 
