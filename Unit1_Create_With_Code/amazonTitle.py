@@ -1,21 +1,16 @@
+print("\n=== Product Title Counter ===")
+
 while True:
-    string = input("Enter title to count words for: ").split()
+    string = input("\nEnter title or 'q' to quit: ")
 
-    numWords = len(string)
+    if string.lower() == "q":
+        quit()
 
-    plural = "s"
-    if numWords == 1:
-        plural = ""
+    numWords = len(string.split())
 
-    response = "Your title is "+str(numWords)+" word"+plural+" long."
-
-    if numWords > 2:
-        response += " Amazon product titles with 3 or more words don't sell as well. It is recommend that you shorten your title to 2 words or less."
-
+    response = "Word count: "+str(numWords)
     print(response)
 
-    runAgainResponse = input("Respond with 'yes' to run the program again: ")
-
-    if runAgainResponse.lower() != "yes":
-        break
-
+    if numWords > 2:
+        print("\n⚠️ WARNING ⚠️")
+        print("Product titles longer than 2 words don't sell as well. It is recommended to shorten your title to 2 words or less.")
