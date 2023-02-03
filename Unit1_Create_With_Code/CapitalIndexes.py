@@ -3,7 +3,7 @@ print("=== Capital Indexes ===\n")
 def capitalIndexes(string):
     indexes = []
     for i, v in enumerate(string):
-        if v.upper() == v:
+        if v.isupper():
             indexes.append(i)
 
     return indexes
