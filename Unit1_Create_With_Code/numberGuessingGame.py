@@ -5,6 +5,12 @@ numGuesses = 10
 range1 = 1
 range2 = 100
 
+scoreboard = {
+    "Easy": [],
+    "Medium": [],
+    "Hard": [],
+}
+
 levels = {
     "Easy": {
         "numGuesses": 15,
@@ -43,7 +49,17 @@ def game(level,settings):
     for i in range(thisNumGuesses):
         print("\n--GUESS "+str(i+1)+"/"+str(thisNumGuesses)+"--\n")
 
-        guess = int(input("Guess a number between "+str(thisRange1)+" and "+str(thisRange2)+": "))
+        guess = None
+
+        while not guess:
+            thisGuess = input("Guess a number between "+str(thisRange1)+" and "+str(thisRange2)+": ")
+
+            try:
+                thisGuess = int(thisGuess)
+            except:
+                print("That's not a valid number!")
+            else:
+                guess = thisGuess
 
         time.sleep(.2)
 
@@ -57,7 +73,10 @@ def game(level,settings):
             if not level in levelsBeat:
                 levelsBeat.append(level)
 
-            print("Congrats! You beat "+level+" mode! It took you "+str(i+1)+" guesses!")
+            print("Congrats! You beat "+level+" mode! It took you "+str(i+1)+" guesses!\n")
+
+            if not i in scoreboard[level]:
+                scoreboard[level].append(i+1)
             time.sleep(.5)
             break
 
@@ -66,24 +85,35 @@ def game(level,settings):
     if not won:
         print("You lost! The number was: "+str(number))
 
-    response = input("Respond with 'yes' to play again: ")
-    if response.lower() != "yes":
-        quit()
+def scoreboardFunc():
+    for i,(k,v) in enumerate(scoreboard.items()):
+        print("--"+k.upper()+"--\n")
+
+        v.sort()
+        string = ""
+
+        for x,y in enumerate(v):
+            string += str(x+1)+") "+str(y)+"\n"
+
+        print(string)
 
 def introduction():
     name = input("What's your name?: ")
-
-    print("Hello, "+name+"! Welcome to the number guessing game!")
+    print("Hello, "+name+"! Welcome to the number guessing game!\n")
 
     time.sleep(1)
 
 def getLevel():
     string = "\nWhich level would you like to play?\n\n"
 
+    levelsList = {}
+
     for i, (k,v) in enumerate(levels.items()):
         emoji = "❌"
         if k in levelsBeat:
             emoji = "✅"
+
+        levelsList[i+1] = k
 
         string += "("+str(i+1)+") "
         string += k + " "+emoji+"\n"
@@ -91,9 +121,18 @@ def getLevel():
     chosenLevel = None
     while not chosenLevel:
         thisChosenLevel = input(string)
+        intLevel = None
 
         if thisChosenLevel.capitalize() in levels:
             chosenLevel = thisChosenLevel.capitalize()
+        else:
+            try:
+                intLevel = int(thisChosenLevel)
+            except:
+                continue
+            else:
+                if intLevel in levelsList:
+                    chosenLevel = levelsList[intLevel]
 
     return chosenLevel
 
@@ -103,13 +142,25 @@ def getAction():
     while not chosenAction:
         thisAction = input("(1) Play\n(2) Scoreboard\n(3) Quit\n")
 
-        if thisAction == "1" or thisAction.lower == "play":
+        if thisAction == "1" or thisAction.lower() == "play":
             chosenAction = "Play"
+        elif thisAction == "2" or thisAction.lower() == "scoreboard":
+            chosenAction = "Scoreboard"
+        elif thisAction == "3" or thisAction.lower() == "quit":
+            chosenAction = "Quit"
+
+    return chosenAction
 
 introduction()
 
 while True:
     action = getAction()
+
+    if action == "Quit":
+        quit()
+    if action == "Scoreboard":
+        scoreboardFunc()
+        continue
 
     level = getLevel()
 
