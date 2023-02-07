@@ -29,8 +29,6 @@ levels = {
     }
 }
 
-levelsBeat = []
-
 #ask for users name, respond hello name welcome
 #at the end, tell how many guesses it took
 #3 different levels (easy, medium, hard)
@@ -70,12 +68,9 @@ def game(level,settings):
         elif guess == number:
             won = True
 
-            if not level in levelsBeat:
-                levelsBeat.append(level)
-
             print("Congrats! You beat "+level+" mode! It took you "+str(i+1)+" guesses!\n")
 
-            if not i in scoreboard[level]:
+            if i+1 not in scoreboard[level]:
                 scoreboard[level].append(i+1)
             time.sleep(.5)
             break
@@ -110,7 +105,8 @@ def getLevel():
 
     for i, (k,v) in enumerate(levels.items()):
         emoji = "❌"
-        if k in levelsBeat:
+
+        if len(scoreboard[k]) > 0:
             emoji = "✅"
 
         levelsList[i+1] = k
