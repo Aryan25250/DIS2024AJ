@@ -29,10 +29,10 @@ levels = {
     }
 }
 
-#ask for users name, respond hello name welcome
-#at the end, tell how many guesses it took
-#3 different levels (easy, medium, hard)
-#high score table
+# ask for users name, respond hello name welcome
+# at the end, tell how many guesses it took
+# 3 different levels (easy, medium, hard)
+# high score table
 
 def game(level,settings):
     thisRange1 = settings["range1"]
